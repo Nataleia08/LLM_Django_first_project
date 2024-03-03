@@ -25,8 +25,10 @@ class Tag(models.Model):
 
 
 
-class Category(models.TextChoices):
-    name = models.CharField(max_length = 100, unique = True)
+class Category(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=250, null=False, unique=True)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return f"{self.name}"
@@ -37,9 +39,9 @@ class Story(models.Model):
     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     text = models.TextField()
     title = models.CharField(max_length = 100)
-    type = EnumField(TypeStory)
+    type = EnumField(TypeStory, default = "B")
     tags = models.ManyToManyField(Tag)
-    category = EnumField(Category)
+    category = models.ManyToManyField(Category)
 
 
 class Project(models.Model):
@@ -49,14 +51,14 @@ class Project(models.Model):
     link = models.CharField(max_length = 100)
     link_dithub = models.CharField(max_length = 100)
     tags = models.ManyToManyField(Tag)
-    category = EnumField(Category)
+    category = models.ManyToManyField(Category)
 
 
 class Example(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     tags = models.ManyToManyField(Tag)
-    category = EnumField(Category)
-    dataset = models.TextField()
-    result = models.TextField()
+    category = models.ManyToManyField(Category)
+    dataset = models.TextField(default= "")
+    result = models.TextField(default= "")
 
 
