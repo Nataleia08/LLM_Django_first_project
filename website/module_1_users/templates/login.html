@@ -1,4 +1,4 @@
-{% extends "noteapp/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
@@ -10,7 +10,7 @@
 </div>
 {% endif %}
 
-<form action="{% url 'login' %}" method="post">
+<form action="{% url 'loginuser' %}" method="post">
     {% csrf_token %}
     <div>
         <label> Username:

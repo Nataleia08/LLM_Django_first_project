@@ -54,7 +54,7 @@ def loginuser(request):
         login(request, user)
         return redirect(to='module_1_user:index')
 
-    return render(request, 'ulogin.html', context={"form": LoginForm()})
+    return render(request, 'login.html', context={"form": LoginForm()})
 
 
 @login_required
