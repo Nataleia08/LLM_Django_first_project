@@ -23,11 +23,9 @@ class Tag(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
-
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=250, null=False, unique=True)
+    name = models.CharField(max_length=250, null=False, unique=True, default = "life")
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, default=1)
 
     def __str__(self):

@@ -27,32 +27,32 @@ def contacts(request):
 
 def signupuser(request):
     if request.user.is_authenticated:
-        return redirect(to='module_1_user:index')
+        return redirect(to='index')
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(to='module_1_user:index')
+            return redirect(to='index')
         else:
-            return render(request, '/signup.html', context={"form": form})
+            return render(request, 'signup.html', context={"form": form})
 
-    return render(request, '/signup.html', context={"form": RegisterForm()})
+    return render(request, 'signup.html', context={"form": RegisterForm()})
 
 
 
 def loginuser(request):
     if request.user.is_authenticated:
-       return redirect(to='module_1_user:index')
+       return redirect(to='index')
 
     if request.method == 'POST':
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is None:
             messages.error(request, 'Username or password didn\'t match')
-            return redirect(to='module_1_user:index')
+            return redirect(to='login')
 
         login(request, user)
-        return redirect(to='module_1_user:index')
+        return redirect(to='index')
 
     return render(request, 'login.html', context={"form": LoginForm()})
 
@@ -60,4 +60,4 @@ def loginuser(request):
 @login_required
 def logoutuser(request):
     logout(request)
-    return redirect(to='noteapp:main')
+    return redirect(to='main')

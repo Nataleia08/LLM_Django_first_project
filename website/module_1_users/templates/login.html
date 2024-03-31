@@ -10,7 +10,7 @@
 </div>
 {% endif %}
 
-<form action="{% url 'loginuser' %}" method="post">
+<form action="{% url 'login' %}" method="post">
     {% csrf_token %}
     <div>
         <label> Username:
