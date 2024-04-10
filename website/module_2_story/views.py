@@ -1,9 +1,12 @@
 from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from .forms import TagForm, StoryForm
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 
-def story(request):
-    return render(request, "story.html")
+
 
 def examples(request):
     return render(request, "examples.html")
@@ -13,3 +16,46 @@ def ukrainian_story(request):
 
 def traveling_story(request):
     return render(request, "traveling_story.html")
+
+@login_required
+def tag(request):
+    if request.method == 'POST':
+        form = TagForm(request.POST)
+        if form.is_valid():
+            tag = form.save(commit=False)
+            tag.user = request.user
+            tag.save()
+            return redirect(to='model_1_users:index')
+        else:
+            return render(request, 'noteapp/tag.html', {'form': form})
+
+    return render(request, 'tag.html', {'form': TagForm()})
+
+
+@login_required
+def story(request, story_id):
+    story = get_object_or_404(Note, pk=story_id, user=request.user)
+    return render(request, 'story.html', {"story": story})
+
+@login_required
+def delete_story(request, story_id):
+    Note.objects.get(pk=story_id, user=request.user).delete()
+    return redirect(to='model_1_users:index')
+
+def add_story(request):
+    tags = Tag.objects.all()
+
+    if request.method == 'POST':
+        form = StoryForm(request.POST)
+        if form.is_valid():
+            new_note = form.save()
+
+            choice_tags = Tag.objects.filter(name__in=request.POST.getlist('tags'))
+            for tag in choice_tags.iterator():
+                new_note.tags.add(tag)
+
+            return redirect(to='model_1_users:index')
+        else:
+            return render(request, 'create_story.html', {"tags": tags, 'form': form})
+
+    return render(request, 'create_story.html', {"tags": tags, 'form': StoryForm()})
