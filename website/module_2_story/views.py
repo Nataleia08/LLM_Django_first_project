@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import TagForm, StoryForm
+from .forms import TagForm, StoryForm, CategoryForm
 from django.shortcuts import render, redirect, get_object_or_404
-
-# Create your views here.
-
+from module_1_users.models import Story, Tag, Category, TypeStory
 
 
 def examples(request):
@@ -27,35 +25,58 @@ def tag(request):
             tag.save()
             return redirect(to='model_1_users:index')
         else:
-            return render(request, 'noteapp/tag.html', {'form': form})
+            return render(request, 'tag.html', {'form': form})
 
     return render(request, 'tag.html', {'form': TagForm()})
+
+@login_required
+def category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.user = request.user
+            category.save()
+            return redirect(to='model_1_users:index')
+        else:
+            return render(request, 'category.html', {'form': form})
+
+    return render(request, 'category.html', {'form': CategoryForm()})
 
 
 @login_required
 def story(request, story_id):
-    story = get_object_or_404(Note, pk=story_id, user=request.user)
+    story = get_object_or_404(Story, pk=story_id, user=request.user)
     return render(request, 'story.html', {"story": story})
 
 @login_required
 def delete_story(request, story_id):
-    Note.objects.get(pk=story_id, user=request.user).delete()
+    Story.objects.get(pk=story_id, user=request.user).delete()
     return redirect(to='model_1_users:index')
 
-def add_story(request):
+def create_story(request):
     tags = Tag.objects.all()
+    categories = Category.objects.all()
+    typies = TypeStory.choices
 
     if request.method == 'POST':
         form = StoryForm(request.POST)
         if form.is_valid():
-            new_note = form.save()
+            new_story = form.save()
 
             choice_tags = Tag.objects.filter(name__in=request.POST.getlist('tags'))
             for tag in choice_tags.iterator():
-                new_note.tags.add(tag)
+                new_story.tags.add(tag)
+
+            choice_categories = Category.objects.filter(name__in=request.POST.getlist('categories'))
+            for category in choice_categories.iterator():
+                new_story.categories.add(category)
+
+            choice_type = TypeStory.value(name__in=request.POST.getlist('typies'))
+            new_story.type.add(choice_type)
 
             return redirect(to='model_1_users:index')
         else:
-            return render(request, 'create_story.html', {"tags": tags, 'form': form})
+            return render(request, 'create_story.html', {"tags": tags, 'categories': categories, 'type': typies, 'form': form})
 
-    return render(request, 'create_story.html', {"tags": tags, 'form': StoryForm()})
+    return render(request, 'create_story.html', {"tags": tags, 'categories': categories, 'type': typies, 'form': StoryForm()})

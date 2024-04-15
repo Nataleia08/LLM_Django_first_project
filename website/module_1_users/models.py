@@ -39,7 +39,7 @@ class Story(models.Model):
     title = models.CharField(max_length = 100)
     type = EnumField(TypeStory, default = "B")
     tags = models.ManyToManyField(Tag)
-    category = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category)
 
 
 class Project(models.Model):

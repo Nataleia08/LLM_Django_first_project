@@ -2,19 +2,19 @@
 
 {% block content %}
 
-<form method="POST" action="{% url 'create_ctory' %}">
+<form method="POST" action="{% url 'create_story' %}">
     {% csrf_token %}
     <div style="padding: 10px">
-        <label> Note name:
-            {{ form.name }}
+        <label> Story title:
+            {{ form.title }}
         </label>
-        <span>{{ form.errors.name }}</span>
+        <span>{{ form.errors.title }}</span>
     </div>
     <div style="padding: 10px">
-        <label> Note description:
-            {{ form.description }}
+        <label> Story text:
+            {{ form.text }}
         </label>
-        <span>{{ form.errors.description }}</span>
+        <span>{{ form.errors.text }}</span>
     </div>
     <div style="padding: 10px">
         <label> Select tags:
@@ -22,6 +22,22 @@
                 {% for tag in tags %}
                 <option value="{{tag.name}}">{{tag.name}}</option>
                 {% endfor %}
+            </select>
+        </label>
+    </div>
+    <div style="padding: 10px">
+        <label> Select categories:
+            <select name="categories" multiple="multiple" required>
+                {% for category in categories %}
+                <option value="{{category.name}}">{{category.name}}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+    <div style="padding: 10px">
+        <label> Select type:
+            <select name="type" required>
+                <option value="{{type.name}}">{{type.name}}</option>
             </select>
         </label>
     </div>
