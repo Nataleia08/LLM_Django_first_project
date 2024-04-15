@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import TagForm, StoryForm, CategoryForm
 from django.shortcuts import render, redirect, get_object_or_404
-from module_1_users.models import Story, Tag, Category, TypeStory
+from .models import Story, Tag, Category, TypeStory
 
 
 def examples(request):

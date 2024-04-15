@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 from django.forms import ModelForm, CharField, TextInput
-from module_1_users.models import Story, Tag, Category
+from .models import Story, Tag, Category
 
 
 class TagForm(ModelForm):
