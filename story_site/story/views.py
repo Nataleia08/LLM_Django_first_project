@@ -6,14 +6,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Story, Tag, Category, TypeStory
 
 
-def examples(request):
-    return render(request, "examples.html")
-
 def ukrainian_story(request):
-    return render(request, "ukrainian_story.html")
+    ukrainian_story = Story.objects.filter(type = "U")
+    return render(request, "ukrainian_story.html", {"ukrainian_story": ukrainian_story})
 
 def traveling_story(request):
-    return render(request, "traveling_story.html")
+    traveling_story = Story.objects.filter(type = "T")
+    return render(request, "traveling_story.html", {"traveling_story": traveling_story})
+
+def stories(request):
+    return render(request, "stories.html" , {"stories": stories})
 
 @login_required
 def tag(request):
@@ -44,7 +46,7 @@ def category(request):
     return render(request, 'category.html', {'form': CategoryForm()})
 
 
-@login_required
+
 def story(request, story_id):
     story = get_object_or_404(Story, pk=story_id, user=request.user)
     return render(request, 'story.html', {"story": story})
@@ -54,6 +56,8 @@ def delete_story(request, story_id):
     Story.objects.get(pk=story_id, user=request.user).delete()
     return redirect(to='model_1_users:index')
 
+
+@login_required
 def create_story(request):
     tags = Tag.objects.all()
     categories = Category.objects.all()
@@ -81,3 +85,32 @@ def create_story(request):
 
     return render(request, 'create_story.html', {"tags": tags, 'categories': categories, 'type': typies, 'form': StoryForm()})
 
+@login_required
+def edit_story(request, story_id):
+    new_story = get_object_or_404(Story, pk=story_id, user=request.user)
+    
+    tags = Tag.objects.all()
+    categories = Category.objects.all()
+    typies = TypeStory.choices
+
+    if request.method == 'PUT':
+        form = StoryForm(request.PUT)
+        if form.is_valid():
+            new_story = form.save()
+
+            choice_tags = Tag.objects.filter(name__in=request.POST.getlist('tags'))
+            for tag in choice_tags.iterator():
+                new_story.tags.add(tag)
+
+            choice_categories = Category.objects.filter(name__in=request.POST.getlist('categories'))
+            for category in choice_categories.iterator():
+                new_story.categories.add(category)
+
+            choice_type = TypeStory.value(name__in=request.POST.getlist('typies'))
+            new_story.type.add(choice_type)
+
+            return redirect(to='model_1_users:index')
+        else:
+            return render(request, 'edit_story.html', {"tags": tags, 'categories': categories, 'type': typies, 'form': form})
+
+    return render(request, 'edit_story.html', {"tags": tags, 'categories': categories, 'type': typies, 'form': StoryForm()})

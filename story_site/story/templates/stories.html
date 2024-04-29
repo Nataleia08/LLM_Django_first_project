@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% for sto in ukrainian_story %}
+{% for sto in stories %}
 <ul>
     <li>
         <a href="{% url 'story' story_id %}" role="button" class="outline"> {{ sto.title }} </a>
