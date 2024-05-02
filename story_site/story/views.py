@@ -88,7 +88,7 @@ def create_story(request):
 @login_required
 def edit_story(request, story_id):
     new_story = get_object_or_404(Story, pk=story_id, user=request.user)
-    
+
     tags = Tag.objects.all()
     categories = Category.objects.all()
     typies = TypeStory.choices

@@ -1,16 +1,30 @@
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
-  <head #include file="./header.html">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <title>Story</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-  </head>
+{% extends "base.html" %}
 
+{% block content %}
 
-<body>
-    <div #include file="./header.html"></div>
+<div>
+    <h2>Contacts</h2>
+</div>
 
-</body>
+<form method="post" action="{% url 'contacts' %}">
+    {% csrf_token %}
+    <div>
+        <label> Your contacts:
+            {{ form.contacts }}
+        </label>
+        <span>{{ form.errors.contacts }}</span>
+    </div>
+    <br>
+    <div>
+        <label> Text message:
+            {{ form.text }}
+        </label>
+        <span>{{ form.errors.text }}</span>
+    </div>
+    <div class="grid">
+        <button type="submit">Submit</button>
+        <button type="reset" class="secondary">Reset</button>
+    </div>
+</form>
+
+{% endblock %}

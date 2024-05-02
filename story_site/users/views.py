@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
 
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, SentMessageForm
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -22,7 +22,15 @@ def profile(request):
     return render(request, "profile.html")
 
 def contacts(request):
-    return render(request, "contacts.html")
+    if request.method == 'POST':
+        form = SentMessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(to='index')
+        else:
+            return render(request, 'contacts.html', {'form': form})
+
+    return render(request, 'contacts.html', {'form': SentMessageForm()})
 
 
 def signupuser(request):

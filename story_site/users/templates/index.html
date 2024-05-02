@@ -22,12 +22,12 @@
             </p>
             <div class="col-md-4">
                 <p>
-                    <a href="logout">Logout</a>
+                    <a href="{% url 'logout' %}">Logout</a>
                 </p>
             </div>
             <div>
                 <p>
-                    <a href="profile" role="button">Profile</a>
+                    <a href="{% url 'profile' %}" role="button">Profile</a>
                 </p>
             </div>
 <!-- <div><a href="script" style = "button">Load quotes and authors information</a></div>
@@ -35,8 +35,8 @@
 {% else %}
             <div style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
                 <p>
-                    <a href="login">Login</a>
-                    <a href="signup">Registration</a>
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'signup' %}">Registration</a>
                 </p>
             </div>
    </div>
@@ -45,14 +45,14 @@
 
 <div class="nav-scroller py-1 mb-3 border-bottom">
   <nav class="nav nav-underline justify-content-between">
-    <a class="nav-item nav-link link-body-emphasis" href="/">Main page</a>
-    <a class="nav-item nav-link link-body-emphasis" href="/story/story/">Story</a>
+    <a class="nav-item nav-link link-body-emphasis" href="/users/">Main page</a>
+    <a class="nav-item nav-link link-body-emphasis" href="/story/stories/">Story</a>
     <a class="nav-item nav-link link-body-emphasis" href="/models/bot_translater">Bot-translater</a>
-    <a class="nav-item nav-link link-body-emphasis" href="/story/examples">Examples</a>
+    <a class="nav-item nav-link link-body-emphasis" href="/llm/examples">Examples</a>
     <a class="nav-item nav-link link-body-emphasis" href="/models/my_project">My project</a>
-    <a class="nav-item nav-link link-body-emphasis" href="/story/ukrainian_story">Ukrainian story</a>
-    <a class="nav-item nav-link link-body-emphasis" href="/story/traveling_story">Traveling story</a>
-    <a class="nav-item nav-link link-body-emphasis" href="/contacts">Contacts</a>
+    <a class="nav-item nav-link link-body-emphasis" href="/story/ukrainian_stories">Ukrainian story</a>
+    <a class="nav-item nav-link link-body-emphasis" href="/story/traveling_stories">Traveling story</a>
+    <a class="nav-item nav-link link-body-emphasis" href="/users/contacts">Contacts</a>
   </nav>
 </div>
 
