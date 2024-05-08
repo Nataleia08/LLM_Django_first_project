@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('stories/', views.stories, name = "stories"),
-    path('story/<int:story_id>', views.story, name='story'),
+    path('story_deteils/<int:story_id>', views.story_deteils, name='story_deteils'),
     path('tag/', views.tag, name = 'tag'),
     path('category/', views.category, name = 'category'),
     path('traveling_stories/', views.traveling_story, name = 'traveling_story'), 

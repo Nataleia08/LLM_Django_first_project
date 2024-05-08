@@ -15,6 +15,7 @@ def traveling_story(request):
     return render(request, "traveling_story.html", {"traveling_story": traveling_story})
 
 def stories(request):
+    stories = Story.objects.all
     return render(request, "stories.html" , {"stories": stories})
 
 @login_required
@@ -47,9 +48,9 @@ def category(request):
 
 
 
-def story(request, story_id):
-    story = get_object_or_404(Story, pk=story_id, user=request.user)
-    return render(request, 'story.html', {"story": story})
+def story_deteils(request, story_id):
+    story_deteils = get_object_or_404(Story, pk=story_id)
+    return render(request, 'story.html', {"story_deteils": story_deteils})
 
 @login_required
 def delete_story(request, story_id):
