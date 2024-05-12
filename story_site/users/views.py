@@ -11,6 +11,7 @@ from .forms import RegisterForm, LoginForm, SentMessageForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import UserProfile
 
 
 def index(request):
@@ -19,7 +20,8 @@ def index(request):
 
 @login_required
 def profile(request):
-    return render(request, "profile.html")
+    prof = request.user
+    return render(request, "profile.html", {"prof": prof})
 
 def contacts(request):
     if request.method == 'POST':

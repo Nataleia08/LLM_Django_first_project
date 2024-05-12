@@ -1,13 +1,23 @@
 {% extends "base.html" %}
+{% load extract_tags %}{% load extract_cat %}
 
 {% block content %}
 
 <ul>
-    <li>{{ story.title }} </li>
-    <li> {{ story.text }} </li>
+    <li>Title: {{ story_details.title }} </li>
+    <li> Text: {{ story_details.text }} </li>
+    <li>Tags: {{ story_details.tags|tags }}</li>
+    <li>Categories: {{story_details.categories|categories}} </li>
     
 </ul>
 
-
+{% if user.is_authenticated %}
+    <div class="col-md-4">
+        <p>
+            <a href="{% url 'edit_story' story_details.id %}" role="button">Edit story</a>
+            <a href="{% url 'delete_story' story_details.id %}" role="button">Delete story</a>
+        </p>
+    </div>
+{% endif %}
 
 {% endblock %}

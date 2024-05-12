@@ -48,12 +48,16 @@ def category(request):
 
 
 
-def story_deteils(request, story_id):
-    story_deteils = get_object_or_404(Story, pk=story_id)
-    return render(request, 'story.html', {"story_deteils": story_deteils})
+def story_details(request, story_id):
+    story_details = get_object_or_404(Story, pk=story_id)
+    story_tags = story_details.tags
+    story_categ = story_details.categories
+    return render(request, 'story.html', {"story_details": story_details, "story_tags" : story_tags, "story_categ" : story_categ})
 
 @login_required
 def delete_story(request, story_id):
+    if Story.objects.get(pk=story_id).user_id == request.user:
+        return redirect(to='model_1_users:index')
     Story.objects.get(pk=story_id, user=request.user).delete()
     return redirect(to='model_1_users:index')
 
@@ -88,8 +92,9 @@ def create_story(request):
 
 @login_required
 def edit_story(request, story_id):
-    new_story = get_object_or_404(Story, pk=story_id, user=request.user)
-
+    new_story = get_object_or_404(Story, pk=story_id)
+    if new_story.user_id == request.user:
+        return redirect(to='model_1_users:index')
     tags = Tag.objects.all()
     categories = Category.objects.all()
     typies = TypeStory.choices
@@ -112,6 +117,6 @@ def edit_story(request, story_id):
 
             return redirect(to='model_1_users:index')
         else:
-            return render(request, 'edit_story.html', {"tags": tags, 'categories': categories, 'type': typies, 'form': form})
+            return render(request, 'edit_story.html', {"story_id": story_id, "tags": tags, 'categories': categories, 'type': typies, 'form': form})
 
-    return render(request, 'edit_story.html', {"tags": tags, 'categories': categories, 'type': typies, 'form': StoryForm()})
+    return render(request, 'edit_story.html', {"story_id": story_id, "tags": tags, 'categories': categories, 'type': typies, 'form': StoryForm()})

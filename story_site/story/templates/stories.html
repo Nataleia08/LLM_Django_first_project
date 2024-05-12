@@ -5,7 +5,7 @@
 {% for sto in stories %}
 <ul>
     <li>
-        <a href="{% url 'story' story_id %}" role="button" class="outline"> {{ sto.title }} </a>
+        <a href="{{sto.id}}" role="button" class="outline"> {{ sto.title }} </a>
     </li>
 </ul>
 {% endfor %}

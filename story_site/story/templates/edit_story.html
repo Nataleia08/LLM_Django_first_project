@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="POST" action="{% url 'edit_story' %}">
+<form method="PUT" action="{% url 'edit_story' story_id%}">
     {% csrf_token %}
     <div style="padding: 10px">
         <label> Edit story title:

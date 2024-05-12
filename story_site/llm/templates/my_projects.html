@@ -2,10 +2,14 @@
 
 {% block content %}
 
+<div>
+    <h2>Projects</h2>
+</div>
+
 {% for project in projects %}
 <ul>
     <li>
-        <a href="{% url 'project' project.id %}" role="button" class="outline"> {{ project.title }} </a>
+        <a href="{{project.id}}" role="button" class="outline"> {{ project.title }} </a>
     </li>
 </ul>
 {% endfor %}
