@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load extract_tags %}{% load extract_cat %}
+{% load extract_tags %}
+{% load extract_cat %}
 
 {% block content %}
 
@@ -7,7 +8,7 @@
     <li>Title: {{ story_details.title }} </li>
     <li> Text: {{ story_details.text }} </li>
     <li>Tags: {{ story_details.tags|tags }}</li>
-    <li>Categories: {{story_details.categories|categories}} </li>
+    <li>Categories: {{ story_details.categories|serchcat}} </li>
     
 </ul>
 
