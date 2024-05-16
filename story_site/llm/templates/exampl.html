@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load extract_tags_l %}
+{% load extract_cat_l %}
+
+{% block content %}
+
+<div>
+    <h2>Exampl {{ exampl.title }}</h2>
+</div>
+
+<ul>
+    <li> Dataset: {{ exampl.dataset }} </li>
+    <li> Result: {{ exampl.result }} </li>
+    <li> Tags: {{ exampl.tags|tags }}</li>
+    <li> Categories: {{ exampl.categories|serchcat}} </li>
+
+    
+</ul>
+
+
+
+{% endblock %}

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load extract_tags_l %}
+{% load extract_cat_l %}
 
 {% block content %}
 
@@ -7,7 +9,9 @@
 </div>
 
 <ul>
-    <li> {{ project.desctription }} </li>
+    <li> Desctription: {{ project.desctription }} </li>
+    <li>Tags: {{ project.tags|tags }}</li>
+    <li>Categories: {{ project.categories|serchcat}} </li>
     
 </ul>
 
